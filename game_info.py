@@ -17,10 +17,26 @@ class GameInfo:
                                shuttle_width,
                                shuttle_height)
         self.bullet = None
+        self.bullet_width = bullet_width
+        self.bullet_height = bullet_height
+        self.bullet_velocity = bullet_velocity
+
+    # @classmethod
+    # def new_standard_game_info(cls, screen_width, screen_height):
+    #     return GameInfo(screen_width,
+    #                     screen_height,
+    #                     shuttle_width=)
+
+    def update(self):
+        self.move_all()
+        self.update_shuttle_moving_flags()
+        self.update_bullet_broken_flag()
 
     def move_all(self):
+        print("move_all")
         self.shuttle.move()
         if self.bullet:
+            print("bullet moves")
             self.bullet.move()
 
     def update_shuttle_moving_flags(self):
@@ -30,7 +46,7 @@ class GameInfo:
             self.shuttle.is_moving_right = False
 
     def update_bullet_broken_flag(self):
-        if self.bullet.y < 0 - self.bullet.height:
+        if self.bullet and self.bullet.y < - self.bullet.height:
             self.bullet.is_broken = True
             self.bullet = None
 

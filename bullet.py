@@ -8,6 +8,7 @@ class Bullet:
         self.height = height
 
     def move(self):
+        print("moves")
         if self.is_broken:
             return
         self.y -= self.velocity

@@ -16,16 +16,16 @@ def game_loop():
     rect_size_y = 50
     margin = 50
 
-    tank_x = margin
-    tank_y = screen_height - margin - rect_size_y
     velocity = 10
-    tank_frame = pygame.Rect(tank_x, tank_y, rect_size_x, rect_size_y)
-    shuttle = Shuttle(tank_x, tank_y, velocity, rect_size_x, rect_size_y)
-    bullet = None
     bullet_size = 10
-    bullet_velocity = 30
-    screen.fill((0, 0, 0))
-    pygame.draw.rect(screen, (100, 0, 0), tank_frame, 0)
+    bullet_velocity = 20
+
+    game_info = GameInfo(screen_width, screen_height,
+                         rect_size_x, rect_size_y, velocity,
+                         bullet_size, bullet_size, bullet_velocity)
+    shuttle = game_info.shuttle
+    # tank_frame = pygame.Rect(shuttle.x, shuttle.y, shuttle.width, shuttle.height)
+    bullet = game_info.bullet
     while True:
         pygame.time.delay(30)
         for event in pygame.event.get():
@@ -37,26 +37,29 @@ def game_loop():
                     shuttle.is_moving_left = True
                 if event.key == pygame.K_RIGHT:
                     shuttle.is_moving_right = True
-                if event.key == pygame.K_SPACE:
-                    bullet = Bullet(shuttle.x + rect_size_x // 2, shuttle.y - bullet_size, bullet_velocity,
-                                    bullet_size, bullet_size)
+                if event.key == pygame.K_SPACE and not game_info.bullet:
+                    game_info.bullet = Bullet(shuttle.x + shuttle.width // 2,
+                                              shuttle.y - bullet_size + bullet_velocity,
+                                              bullet_velocity,
+                                              bullet_size, bullet_size)
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     shuttle.is_moving_left = False
                 if event.key == pygame.K_RIGHT:
                     shuttle.is_moving_right = False
 
-        if shuttle.x < 0:
-            shuttle.is_moving_left = False
-        if shuttle.x + rect_size_x > screen_width:
-            shuttle.is_moving_right = False
-        shuttle.move()
+        # if shuttle.x < 0:
+        #     shuttle.is_moving_left = False
+        # if shuttle.x + rect_size_x > screen_width:
+        #     shuttle.is_moving_right = False
+        game_info.update()
 
         screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (100, 0, 0), (shuttle.x, shuttle.y, rect_size_x, rect_size_y), 0)
-        if bullet:
-            pygame.draw.rect(screen, (0, 100, 0), (bullet.x, bullet.y, bullet_size, bullet_size), 0)
-            bullet.move()
+        pygame.draw.rect(screen, (100, 0, 0), (shuttle.x, shuttle.y, shuttle.width, shuttle.height), 0)
+        if game_info.bullet:
+            pygame.draw.rect(screen, (0, 100, 0), (game_info.bullet.x, game_info.bullet.y,
+                                                   game_info.bullet.width, game_info.bullet.height), 0)
+            # bullet.move()
 
         pygame.display.flip()
 
