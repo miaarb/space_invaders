@@ -1,8 +1,10 @@
-class Tank:
-    def __init__(self, x, y, v):
+class Shuttle:
+    def __init__(self, x, y, v, width, height):
         self.x = x
         self.y = y
         self.velocity = v
+        self.width = width
+        self.height = height
         self.is_moving_left = False
         self.is_moving_right = False
         self.sprite = None
