@@ -1,10 +1,9 @@
-class Shuttle:
+from game_object import *
+
+
+class Shuttle(GameObject):
     def __init__(self, x, y, v, width, height):
-        self.x = x
-        self.y = y
-        self.velocity = v
-        self.width = width
-        self.height = height
+        super().__init__(x, y, v, width, height)
         self.is_moving_left = False
         self.is_moving_right = False
         self.sprite = None

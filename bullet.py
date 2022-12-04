@@ -1,11 +1,10 @@
-class Bullet:
+from game_object import *
+
+
+class Bullet(GameObject):
     def __init__(self, x, y, v, width, height):
-        self.x = x
-        self.y = y
-        self.velocity = v
+        super().__init__(x, y, v, width, height)
         self.is_broken = False
-        self.width = width
-        self.height = height
 
     def move(self):
         print("moves")
