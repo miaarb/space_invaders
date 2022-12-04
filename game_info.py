@@ -2,6 +2,7 @@ import pygame
 import sys
 from shuttle import *
 from bullet import *
+from game_object import *
 
 
 class GameInfo:
@@ -20,6 +21,8 @@ class GameInfo:
         self.bullet_width = bullet_width
         self.bullet_height = bullet_height
         self.bullet_velocity = bullet_velocity
+        self.screen = GameObject(0,0,0,screen_width, screen_height)
+        self.enemies = []
 
     # @classmethod
     # def new_standard_game_info(cls, screen_width, screen_height):
@@ -49,6 +52,8 @@ class GameInfo:
         if self.bullet and self.bullet.y < - self.bullet.height:
             self.bullet.is_broken = True
             self.bullet = None
+
+
 
 
 
