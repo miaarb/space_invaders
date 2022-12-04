@@ -17,11 +17,11 @@ class GameInfo:
                                shuttle_velocity,
                                shuttle_width,
                                shuttle_height)
-        self.bullet = None
+        self.shuttle_bullets = []
         self.bullet_width = bullet_width
         self.bullet_height = bullet_height
         self.bullet_velocity = bullet_velocity
-        self.screen = GameObject(0,0,0,screen_width, screen_height)
+        self.screen = GameObject(0, 0, 0, screen_width, screen_height)
         self.enemies = []
 
     # @classmethod
@@ -38,9 +38,9 @@ class GameInfo:
     def move_all(self):
         print("move_all")
         self.shuttle.move()
-        if self.bullet:
+        if self.shuttle_bullets:
             print("bullet moves")
-            self.bullet.move()
+            self.shuttle_bullets[0].move()
 
     def update_shuttle_moving_flags(self):
         if self.shuttle.x < 0:
@@ -49,9 +49,9 @@ class GameInfo:
             self.shuttle.is_moving_right = False
 
     def update_bullet_broken_flag(self):
-        if self.bullet and self.bullet.y < - self.bullet.height:
-            self.bullet.is_broken = True
-            self.bullet = None
+        if self.shuttle_bullets and self.shuttle_bullets[0].y < - self.shuttle_bullets[0].height:
+            self.shuttle_bullets[0].die()
+            self.shuttle_bullets.pop(0)
 
 
 

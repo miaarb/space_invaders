@@ -5,6 +5,10 @@ class GameObject:
         self.velocity = v
         self.width = width
         self.height = height
+        self.is_alive = True
+
+    def die(self):
+        self.is_alive = False
 
     def is_intersected_with(self, another_game_object):
         return GameObject.are_intersected(self, another_game_object)
