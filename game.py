@@ -4,28 +4,28 @@ import sys
 from game_info import *
 
 
-class GameUI:
-    def game_loop(self):
+class Game:
+    def __init__(self):
         pygame.init()
-        screen_width = 1200
-        screen_height = 700
-        screen = pygame.display.set_mode((screen_width, screen_height))
+        self.screen_width = 1200
+        self.screen_height = 700
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Space Invaders")
 
-        rect_size_x = 100
-        rect_size_y = 50
-        margin = 50
+        self.rect_size_x = 100
+        self.rect_size_y = 50
+        self.margin = 50
 
-        velocity = 10
-        bullet_size = 10
-        bullet_velocity = 20
+        self.velocity = 10
+        self.bullet_size = 10
+        self.bullet_velocity = 20
 
-        game_info = GameInfo(screen_width, screen_height,
-                             rect_size_x, rect_size_y, velocity,
-                             bullet_size, bullet_size, bullet_velocity)
-        shuttle = game_info.shuttle
-        # tank_frame = pygame.Rect(shuttle.x, shuttle.y, shuttle.width, shuttle.height)
-        bullet = game_info.shuttle_bullets
+        self.game_info = GameInfo(self.screen_width, self.screen_height,
+                                  self.rect_size_x, self.rect_size_y, self.velocity,
+                                  self.bullet_size, self.bullet_size, self.bullet_velocity)
+        self.shuttle = self.game_info.shuttle
+
+    def game_loop(self):
         while True:
             pygame.time.delay(30)
             for event in pygame.event.get():
@@ -33,39 +33,41 @@ class GameUI:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        shuttle.is_moving_left = True
-                    if event.key == pygame.K_RIGHT:
-                        shuttle.is_moving_right = True
-                    if event.key == pygame.K_SPACE and not game_info.shuttle_bullets:
-                        game_info.shuttle_bullets.append(Bullet(Enemy,
-                                                                shuttle.x + shuttle.width // 2,
-                                                                shuttle.y - bullet_size + bullet_velocity,
-                                                                bullet_velocity,
-                                                                bullet_size, bullet_size))
+                    self.process_game_keydown(event.key)
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT:
-                        shuttle.is_moving_left = False
-                    if event.key == pygame.K_RIGHT:
-                        shuttle.is_moving_right = False
+                    self.process_game_keyup(event.key)
 
-            # if shuttle.x < 0:
-            #     shuttle.is_moving_left = False
-            # if shuttle.x + rect_size_x > screen_width:
-            #     shuttle.is_moving_right = False
-            game_info.update()
+            self.game_info.update()
+            self.draw()
 
-            screen.fill((0, 0, 0))
-            pygame.draw.rect(screen, (100, 0, 0), (shuttle.x, shuttle.y, shuttle.width, shuttle.height), 0)
-            if game_info.shuttle_bullets:
-                bullet = game_info.shuttle_bullets[0]
-                pygame.draw.rect(screen, (0, 100, 0), (bullet.x, bullet.y,
-                                                       bullet.width, bullet.height),
-                                 0)
-                # bullet.move()
+    def draw(self):
+        self.screen.fill((0, 0, 0))
+        pygame.draw.rect(self.screen, (100, 0, 0),
+                         (self.shuttle.x, self.shuttle.y, self.shuttle.width, self.shuttle.height), 0)
+        if self.game_info.shuttle_bullets:
+            bullet = self.game_info.shuttle_bullets[0]
+            pygame.draw.rect(self.screen, (0, 100, 0), (bullet.x, bullet.y,
+                                                        bullet.width, bullet.height), 0)
+        pygame.display.flip()
 
-            pygame.display.flip()
+    def process_game_keydown(self, key):
+        if key == pygame.K_LEFT:
+            self.shuttle.is_moving_left = True
+        if key == pygame.K_RIGHT:
+            self.shuttle.is_moving_right = True
+        if key == pygame.K_SPACE and not self.game_info.shuttle_bullets:
+            self.game_info.shuttle_bullets.append(Bullet(Enemy,
+                                                         self.shuttle.x + self.shuttle.width // 2,
+                                                         self.shuttle.y - self.bullet_size + self.bullet_velocity,
+                                                         self.bullet_velocity,
+                                                         self.bullet_size, self.bullet_size))
+
+    def process_game_keyup(self, key):
+        if key == pygame.K_LEFT:
+            self.shuttle.is_moving_left = False
+        if key == pygame.K_RIGHT:
+            self.shuttle.is_moving_right = False
 
 
-ui = GameUI()
-ui.game_loop()
+game = Game()
+game.game_loop()
