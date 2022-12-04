@@ -8,12 +8,15 @@ class Bullet(GameObject):
         self.target = Enemy
 
     def move(self):
-        print("moves")
+        # print("moves")
         if not self.is_alive:
             return
         self.y -= self.velocity
 
     def try_hit(self, another_game_object):
-        if another_game_object is self.target and self.is_intersected_with(another_game_object):
+        if isinstance(another_game_object, self.target) and self.is_intersected_with(another_game_object):
+        # if self.is_intersected_with(another_game_object):
+            print("hit")
             another_game_object.die()
+            self.die()
 

@@ -11,6 +11,7 @@ class GameObject:
         self.is_alive = False
 
     def is_intersected_with(self, another_game_object):
+        print("is intersected with")
         return GameObject.are_intersected(self, another_game_object)
 
     @staticmethod
@@ -19,7 +20,7 @@ class GameObject:
         g2 = game_object_2
         is_one_vertical_side_between_anothers = (
                 g1.x <= g2.x <= g1.x + g1.width
-                or g1.x <= g2.x + g2.width <= g1.width
+                or g1.x <= g2.x + g2.width <= g1.x + g1.width
                 or g2.x <= g1.x <= g2.x + g2.width
                 or g2.x <= g1.x + g1.width <= g2.x + g2.width
         )
@@ -29,4 +30,5 @@ class GameObject:
                 or g2.y <= g1.y <= g2.y + g2.height
                 or g2.y <= g1.y + g1.height <= g2.y + g2.height
         )
+        print("check intersection")
         return is_one_vertical_side_between_anothers and is_one_horizontal_side_between_anothers

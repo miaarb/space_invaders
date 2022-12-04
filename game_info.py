@@ -22,7 +22,9 @@ class GameInfo:
         self.bullet_height = bullet_height
         self.bullet_velocity = bullet_velocity
         self.screen = GameObject(0, 0, 0, screen_width, screen_height)
-        self.enemies = []
+        self.enemy_width = 50
+        self.enemy_height = 50
+        self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
 
     # @classmethod
     # def new_standard_game_info(cls, screen_width, screen_height):
@@ -36,7 +38,7 @@ class GameInfo:
         self.update_bullet_broken_flag()
 
     def move_all(self):
-        print("move_all")
+        # print("move_all")
         self.shuttle.move()
         if self.shuttle_bullets:
             print("bullet moves")
@@ -49,8 +51,15 @@ class GameInfo:
             self.shuttle.is_moving_right = False
 
     def update_bullet_broken_flag(self):
-        if self.shuttle_bullets and self.shuttle_bullets[0].y < - self.shuttle_bullets[0].height:
+        # print("updating")
+        if not self.shuttle_bullets:
+            return
+        for enemy in self.enemies:
+            print("check enemy")
+            self.shuttle_bullets[0].try_hit(enemy)
+        if self.shuttle_bullets[0].y < - self.shuttle_bullets[0].height:
             self.shuttle_bullets[0].die()
+        if not self.shuttle_bullets[0].is_alive:
             self.shuttle_bullets.pop(0)
 
 

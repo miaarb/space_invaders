@@ -46,8 +46,13 @@ class Game:
                          (self.shuttle.x, self.shuttle.y, self.shuttle.width, self.shuttle.height), 0)
         if self.game_info.shuttle_bullets:
             bullet = self.game_info.shuttle_bullets[0]
-            pygame.draw.rect(self.screen, (0, 100, 0), (bullet.x, bullet.y,
-                                                        bullet.width, bullet.height), 0)
+            if bullet.is_alive:
+                pygame.draw.rect(self.screen, (0, 100, 0), (bullet.x, bullet.y,
+                                                            bullet.width, bullet.height), 0)
+        for enemy in self.game_info.enemies:
+            if enemy.is_alive:
+                pygame.draw.rect(self.screen, (0, 0, 100), (enemy.x, enemy.y, enemy.width, enemy.height))
+
         pygame.display.flip()
 
     def process_game_keydown(self, key):
