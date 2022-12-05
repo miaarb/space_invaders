@@ -18,7 +18,9 @@ class Bullet(GameObject):
 
     def try_hit(self, another_game_object):
         for target in self.targets:
-            if isinstance(another_game_object, target) and self.is_intersected_with(another_game_object):
+            if isinstance(another_game_object, target) \
+                    and another_game_object.is_alive \
+                    and self.is_intersected_with(another_game_object):
                 print("hit")
                 another_game_object.get_hit()
                 self.die()

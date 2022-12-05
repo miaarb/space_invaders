@@ -24,6 +24,7 @@ class Game:
                                   self.rect_size_x, self.rect_size_y, self.velocity,
                                   self.bullet_size, self.bullet_size, self.bullet_velocity)
         self.shuttle = self.game_info.shuttle
+        self.game_info.fill_enemy_matrix(15, 3)
 
     def game_loop(self):
         while True:
@@ -42,7 +43,7 @@ class Game:
 
     def draw(self):
         self.screen.fill((0, 0, 0))
-        pygame.draw.rect(self.screen, (100, 0, 0),
+        pygame.draw.rect (self.screen, (100, 0, 0),
                          (self.shuttle.x, self.shuttle.y, self.shuttle.width, self.shuttle.height), 0)
         if self.game_info.shuttle_bullets:
             bullet = self.game_info.shuttle_bullets[0]

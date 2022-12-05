@@ -24,13 +24,24 @@ class GameInfo:
         self.screen = GameObject(0, 0, 0, screen_width, screen_height)
         self.enemy_width = 50
         self.enemy_height = 50
-        self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
+        self.enemy_velocity = 0
+        # self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
+        self.enemy_matrix = [[]]
+        self.enemy_upper_bareer = self.margin
+        self.enemy_left_bareer = 0
 
     # @classmethod
     # def new_standard_game_info(cls, screen_width, screen_height):
     #     return GameInfo(screen_width,
     #                     screen_height,
     #                     shuttle_width=)
+
+    @property
+    def enemies(self):
+        res = []
+        for enemies_row in self.enemy_matrix:
+            res += enemies_row
+        return res
 
     def update(self):
         self.move_all()
@@ -43,6 +54,9 @@ class GameInfo:
         if self.shuttle_bullets:
             print("bullet moves")
             self.shuttle_bullets[0].move()
+
+    def create_enemy(self, x, y):
+        return Enemy(x, y, self.enemy_velocity, self.enemy_width, self.enemy_height)
 
     def update_shuttle_moving_flags(self):
         if self.shuttle.x < 0:
@@ -61,6 +75,17 @@ class GameInfo:
             self.shuttle_bullets[0].die()
         if not self.shuttle_bullets[0].is_alive:
             self.shuttle_bullets.pop(0)
+
+    def fill_enemy_matrix(self, width, height, distance=15):
+        x0 = self.enemy_left_bareer
+        y0 = self.enemy_upper_bareer
+        self.enemy_matrix = \
+            [[self.create_enemy(x0 + (self.enemy_width + distance) * j, y0 + (self.enemy_height + distance) * i)
+              for j in range(width)]
+             for i in range(height)]
+
+
+
 
 
 
