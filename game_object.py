@@ -6,9 +6,16 @@ class GameObject:
         self.width = width
         self.height = height
         self.is_alive = True
+        self.lives = 1
 
     def die(self):
+        self.lives = 0
         self.is_alive = False
+
+    def get_hit(self, damage=1):
+        self.lives -= damage
+        if self.lives == 0:
+            self.die()
 
     def is_intersected_with(self, another_game_object):
         # print("is intersected with")

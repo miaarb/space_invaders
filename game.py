@@ -61,7 +61,7 @@ class Game:
         if key == pygame.K_RIGHT:
             self.shuttle.is_moving_right = True
         if key == pygame.K_SPACE and not self.game_info.shuttle_bullets:
-            self.game_info.shuttle_bullets.append(Bullet(Enemy,
+            self.game_info.shuttle_bullets.append(Bullet(Shuttle,
                                                          self.shuttle.x + self.shuttle.width // 2,
                                                          self.shuttle.y - self.bullet_size + self.bullet_velocity,
                                                          self.bullet_velocity,
