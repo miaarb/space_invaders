@@ -12,8 +12,13 @@ class Game:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Space Invaders")
 
-        self.shuttle_width = 100
-        self.shuttle_height = 50
+        # self.shuttle_width = 100
+        # self.shuttle_height = 50
+
+        self.shuttle_image = pygame.image.load(r"images\shuttle.png")
+        self.shuttle_width = self.shuttle_image.get_width()
+        self.shuttle_height = self.shuttle_image.get_height()
+
         self.margin = 50
 
         self.velocity = 10
@@ -58,8 +63,9 @@ class Game:
         pygame.display.flip()
 
     def draw_shuttle(self):
-        pygame.draw.rect(self.screen, (100, 0, 0),
-                         (self.shuttle.x, self.shuttle.y, self.shuttle.width, self.shuttle.height), 0)
+        # pygame.draw.rect(self.screen, (100, 0, 0),
+        #                  (self.shuttle.x, self.shuttle.y, self.shuttle.width, self.shuttle.height), 0)
+        self.screen.blit(self.shuttle_image, (self.shuttle.x, self.shuttle.y))
 
     def draw_bullets(self):
         if self.game_info.shuttle_bullets:
