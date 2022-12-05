@@ -8,7 +8,8 @@ from game_object import *
 class GameInfo:
     def __init__(self, screen_width, screen_height,
                  shuttle_width, shuttle_height, shuttle_velocity,
-                 bullet_width, bullet_height, bullet_velocity):
+                 bullet_width, bullet_height, bullet_velocity,
+                 enemy_width, enemy_height):
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.margin = 50
@@ -22,8 +23,8 @@ class GameInfo:
         self.bullet_height = bullet_height
         self.bullet_velocity = bullet_velocity
         self.screen = GameObject(0, 0, 0, screen_width, screen_height)
-        self.enemy_width = 50
-        self.enemy_height = 50
+        self.enemy_width = enemy_width
+        self.enemy_height = enemy_height
         self.enemy_velocity = 0
         # self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
         self.enemy_matrix = [[]]

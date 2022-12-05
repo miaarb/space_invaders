@@ -11,6 +11,8 @@ class Game:
         self.screen_height = 700
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Space Invaders")
+        icon = pygame.image.load(r"images\shuttle.png")
+        pygame.display.set_icon(icon)
 
         # self.shuttle_width = 100
         # self.shuttle_height = 50
@@ -18,20 +20,26 @@ class Game:
         self.shuttle_image = pygame.image.load(r"images\shuttle.png")
         self.shuttle_width = self.shuttle_image.get_width()
         self.shuttle_height = self.shuttle_image.get_height()
+        self.shuttle_velocity = 10
 
         self.margin = 50
 
-        self.velocity = 10
-        self.bullet_width = 10
-        self.bullet_height = 10
+        self.bullet_image = pygame.image.load(r"images\bullet.png")
+        self.bullet_width = self.bullet_image.get_width()
+        self.bullet_height = self.bullet_image.get_height()
         self.bullet_velocity = 20
 
+        self.enemy_image = pygame.image.load(r"images\cat_enemy.png")
+        self.enemy_width = self.enemy_image.get_width()
+        self.enemy_height = self.enemy_image.get_height()
+
         self.game_info = GameInfo(self.screen_width, self.screen_height,
-                                  self.shuttle_width, self.shuttle_height, self.velocity,
-                                  self.bullet_width, self.bullet_height, self.bullet_velocity)
+                                  self.shuttle_width, self.shuttle_height, self.shuttle_velocity,
+                                  self.bullet_width, self.bullet_height, self.bullet_velocity,
+                                  self.enemy_width, self.enemy_height)
         self.shuttle = self.game_info.shuttle
 
-        self.enemy_matrix_width = 15
+        self.enemy_matrix_width = 13
         self.enemy_matrix_height = 3
         self.game_info.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
 
@@ -71,12 +79,16 @@ class Game:
         if self.game_info.shuttle_bullets:
             bullet = self.game_info.shuttle_bullets[0]
             if bullet.is_alive:
-                pygame.draw.rect(self.screen, (0, 100, 0), (bullet.x, bullet.y,
-                                                            bullet.width, bullet.height), 0)
+                # pygame.draw.rect(self.screen, (0, 100, 0), (bullet.x, bullet.y,
+                #                                             bullet.width, bullet.height), 0)
+                self.screen.blit(self.bullet_image,
+                                 (bullet.x, bullet.y, bullet.width, bullet.height))
+
     def draw_enemies(self):
         for enemy in self.game_info.enemies:
             if enemy.is_alive:
-                pygame.draw.rect(self.screen, (0, 0, 100), (enemy.x, enemy.y, enemy.width, enemy.height))
+                # pygame.draw.rect(self.screen, (0, 0, 100), (enemy.x, enemy.y, enemy.width, enemy.height))
+                self.screen.blit(self.enemy_image, (enemy.x, enemy.y))
 
     def process_game_keydown(self, key):
         if key == pygame.K_LEFT:
