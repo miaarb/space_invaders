@@ -12,19 +12,28 @@ class Game:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Space Invaders")
 
-        self.rect_size_x = 100
-        self.rect_size_y = 50
+        self.shuttle_width = 100
+        self.shuttle_height = 50
         self.margin = 50
 
         self.velocity = 10
-        self.bullet_size = 10
+        self.bullet_width = 10
+        self.bullet_height = 10
         self.bullet_velocity = 20
 
         self.game_info = GameInfo(self.screen_width, self.screen_height,
-                                  self.rect_size_x, self.rect_size_y, self.velocity,
-                                  self.bullet_size, self.bullet_size, self.bullet_velocity)
+                                  self.shuttle_width, self.shuttle_height, self.velocity,
+                                  self.bullet_width, self.bullet_height, self.bullet_velocity)
         self.shuttle = self.game_info.shuttle
-        self.game_info.fill_enemy_matrix(15, 3)
+
+        self.enemy_matrix_width = 15
+        self.enemy_matrix_height = 3
+        self.game_info.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
+
+    @classmethod
+    def new_base_game(cls):
+        pass
+        # return cls()
 
     def game_loop(self):
         while True:
@@ -64,9 +73,10 @@ class Game:
         if key == pygame.K_SPACE and not self.game_info.shuttle_bullets:
             self.game_info.shuttle_bullets.append(Bullet(Shuttle,
                                                          self.shuttle.x + self.shuttle.width // 2,
-                                                         self.shuttle.y - self.bullet_size + self.bullet_velocity,
+                                                         self.shuttle.y - self.bullet_width + self.bullet_velocity,
                                                          self.bullet_velocity,
-                                                         self.bullet_size, self.bullet_size))
+                                                         self.bullet_width,
+                                                         self.bullet_height))
 
     def process_game_keyup(self, key):
         if key == pygame.K_LEFT:
