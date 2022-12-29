@@ -27,9 +27,12 @@ class GameInfo:
         self.enemy_height = enemy_height
         self.enemy_velocity = 0
         # self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
+        self.enemy_matrix_width = 3
+        self.enemy_matrix_height = 2
         self.enemy_matrix = [[]]
         self.enemy_upper_bareer = self.margin
         self.enemy_left_bareer = 0
+        self.enemy_count = 0
         self.player_score = 0
 
     # @classmethod
@@ -49,6 +52,8 @@ class GameInfo:
         self.move_all()
         self.update_shuttle_moving_flags()
         self.update_bullet_broken_flag()
+        # if self.is_level_completed():
+        #     self.new_level()
 
     def move_all(self):
         # print("move_all")
@@ -59,6 +64,14 @@ class GameInfo:
 
     def create_enemy(self, x, y):
         return Enemy(x, y, self.enemy_velocity, self.enemy_width, self.enemy_height)
+
+    def is_level_completed(self):
+        if self.enemy_count == 0:
+            return True
+        return False
+
+    def new_level(self):
+        self.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
 
     def update_shuttle_moving_flags(self):
         if self.shuttle.x < 0:
@@ -77,6 +90,7 @@ class GameInfo:
             hit_enemy = self.shuttle_bullets[0].try_hit(enemy)
             if not enemy.is_alive:
                 self.player_score += enemy.kill_xp
+                self.enemy_count -= 1
         if self.shuttle_bullets[0].y < - self.shuttle_bullets[0].height:
             self.shuttle_bullets[0].die()
         if not self.shuttle_bullets[0].is_alive:
@@ -89,6 +103,7 @@ class GameInfo:
             [[self.create_enemy(x0 + (self.enemy_width + distance) * j, y0 + (self.enemy_height + distance) * i)
               for j in range(width)]
              for i in range(height)]
+        self.enemy_count = width * height
 
 
 

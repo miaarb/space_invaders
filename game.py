@@ -40,9 +40,12 @@ class Game:
                                   self.enemy_width, self.enemy_height)
         self.shuttle = self.game_info.shuttle
 
-        self.enemy_matrix_width = 13
-        self.enemy_matrix_height = 3
-        self.game_info.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
+        self.smile_image = pygame.image.load(r"images\smile.png")
+
+        self.game_info.new_level()
+        # self.enemy_matrix_width = 4
+        # self.enemy_matrix_height = 3
+        # self.game_info.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
 
     @classmethod
     def new_base_game(cls):
@@ -63,6 +66,8 @@ class Game:
 
             self.game_info.update()
             self.draw()
+            if self.game_info.is_level_completed():
+                self.level_completed()
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -71,6 +76,13 @@ class Game:
         self.draw_enemies()
         self.draw_score()
         pygame.display.flip()
+
+    def level_completed(self):
+        self.screen.blit(self.smile_image, (self.screen_width // 2 - self.smile_image.get_width() // 2,
+                                            self.screen_height // 2 - self.smile_image.get_height() // 2))
+        pygame.display.flip()
+        pygame.time.delay(1000)
+        self.game_info.new_level()
 
     def draw_score(self):
         score = self.game_info.player_score
