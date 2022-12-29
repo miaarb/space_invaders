@@ -13,6 +13,7 @@ class Game:
         pygame.display.set_caption("Space Invaders")
         icon = pygame.image.load(r"images\shuttle.png")
         pygame.display.set_icon(icon)
+        self.font = pygame.font.SysFont('Comic Sans MS', 30)
 
         # self.shuttle_width = 100
         # self.shuttle_height = 50
@@ -68,7 +69,13 @@ class Game:
         self.draw_shuttle()
         self.draw_bullets()
         self.draw_enemies()
+        self.draw_score()
         pygame.display.flip()
+
+    def draw_score(self):
+        score = self.game_info.player_score
+        score_text_surface = self.font.render(str(score), True, (200, 200, 200))
+        self.screen.blit(score_text_surface, (0, 0))
 
     def draw_shuttle(self):
         # pygame.draw.rect(self.screen, (100, 0, 0),

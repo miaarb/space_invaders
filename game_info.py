@@ -30,6 +30,7 @@ class GameInfo:
         self.enemy_matrix = [[]]
         self.enemy_upper_bareer = self.margin
         self.enemy_left_bareer = 0
+        self.player_score = 0
 
     # @classmethod
     # def new_standard_game_info(cls, screen_width, screen_height):
@@ -70,8 +71,12 @@ class GameInfo:
         if not self.shuttle_bullets:
             return
         for enemy in self.enemies:
+            if not enemy.is_alive:
+                continue
             print("check enemy")
-            self.shuttle_bullets[0].try_hit(enemy)
+            hit_enemy = self.shuttle_bullets[0].try_hit(enemy)
+            if not enemy.is_alive:
+                self.player_score += enemy.kill_xp
         if self.shuttle_bullets[0].y < - self.shuttle_bullets[0].height:
             self.shuttle_bullets[0].die()
         if not self.shuttle_bullets[0].is_alive:

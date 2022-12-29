@@ -24,6 +24,9 @@ class Bullet(GameObject):
                 print("hit")
                 another_game_object.get_hit()
                 self.die()
+                return True
+        else:
+            return False
 
     def set_targets(self):
         if self.sender_class == Shuttle:
