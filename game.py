@@ -33,7 +33,7 @@ class Game:
         self.enemy_image = pygame.image.load(r"images\cat_enemy.png")
         self.enemy_width = self.enemy_image.get_width()
         self.enemy_height = self.enemy_image.get_height()
-        self.enemy_velocity = 5
+        self.enemy_velocity = 3
 
         self.game_info = GameInfo(self.screen_width, self.screen_height,
                                   self.shuttle_width, self.shuttle_height, self.shuttle_velocity,
@@ -43,7 +43,7 @@ class Game:
 
         self.rjuman_image = pygame.image.load(r"images/rjuman.png")
 
-        self.game_info.new_level()
+        self.game_info.start_new_level()
         # self.enemy_matrix_width = 4
         # self.enemy_matrix_height = 3
         # self.game_info.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
@@ -67,7 +67,7 @@ class Game:
 
             self.game_info.update()
             self.draw()
-            if self.game_info.is_level_completed():
+            if self.game_info.is_level_completed:
                 self.level_completed()
 
     def draw(self):
@@ -83,7 +83,10 @@ class Game:
                                              self.screen_height // 2 - self.rjuman_image.get_height() // 2))
         pygame.display.flip()
         pygame.time.delay(1500)
-        self.game_info.new_level()
+        self.game_info.start_new_level()
+
+    def show_player_died(self):
+        self.screen.blit()
 
     def draw_score(self):
         score = self.game_info.player_score

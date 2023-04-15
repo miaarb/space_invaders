@@ -29,7 +29,7 @@ class GameInfo:
         self.enemy_velocity = enemy_velocity
         self.enemy_distance = enemy_width // 4
         # self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
-        self.enemy_matrix_width = 10
+        self.enemy_matrix_width = 5
         self.enemy_matrix_height = 2
         self.enemy_matrix = [[]]
         self.enemy_upper_bareer = self.margin
@@ -37,6 +37,9 @@ class GameInfo:
         self.enemy_count = 0
         self.enemy_destination = EnemyDestination.right
         self.player_score = 0
+        self.is_player_alive = True
+        self.is_level_completed = False
+        self.is_active = True
 
     # @classmethod
     # def new_standard_game_info(cls, screen_width, screen_height):
@@ -51,11 +54,18 @@ class GameInfo:
             res += enemies_row
         return res
 
+    def start_new_level(self):
+        self.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height, self.enemy_distance)
+        self.is_active = True
+        self.is_player_alive = True
+
     def update(self):
+        if not self.is_active:
+            return
         self.move_all()
         self.update_shuttle_moving_flags()
         self.update_bullet_broken_flag()
-        # if self.is_level_completed():
+        self.check_is_level_completed()
         #     self.new_level()
 
     def move_all(self):
@@ -69,11 +79,11 @@ class GameInfo:
     def move_enemies(self):
         if (self.enemy_destination == EnemyDestination.right
                 and self.enemy_matrix[0][-1].x + self.enemy_width >= self.screen_width) \
-            or (self.enemy_destination == EnemyDestination.left
-                and self.enemy_matrix[0][0].x <= 0):
-
+                or (self.enemy_destination == EnemyDestination.left
+                    and self.enemy_matrix[0][0].x <= 0):
             self.change_enemy_destination()
             self.enemy_upper_bareer += self.enemy_height // 2
+
         if (self.enemy_destination in [EnemyDestination.down_then_left, EnemyDestination.down_then_right]
                 and self.enemy_matrix[0][0].y >= self.enemy_upper_bareer):
             self.change_enemy_destination()
@@ -93,8 +103,8 @@ class GameInfo:
             if self.enemy_destination == ordered_destinations[i]:
                 print(self.enemy_destination, '-> ', end='')
                 self.enemy_destination = ordered_destinations[(i + 1) % len(ordered_destinations)]
-                break
                 print(self.enemy_destination)
+                break
 
     def get_enemy_move_coords(self):
         if self.enemy_destination == EnemyDestination.left:
@@ -107,13 +117,12 @@ class GameInfo:
     def create_enemy(self, x, y):
         return Enemy(x, y, self.enemy_velocity, self.enemy_width, self.enemy_height)
 
-    def is_level_completed(self):
+    def check_is_level_completed(self):
         if self.enemy_count == 0:
-            return True
-        return False
-
-    def new_level(self):
-        self.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height, self.enemy_distance)
+            self.is_active = False
+            self.is_level_completed = True
+        else:
+            self.is_level_completed = False
 
     def update_shuttle_moving_flags(self):
         if self.shuttle.x <= 0:
