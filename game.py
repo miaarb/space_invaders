@@ -69,6 +69,8 @@ class Game:
             self.draw()
             if self.game_info.is_level_completed:
                 self.level_completed()
+            elif not self.game_info.is_player_alive:
+                self.show_player_died()
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -86,7 +88,10 @@ class Game:
         self.game_info.start_new_level()
 
     def show_player_died(self):
-        self.screen.blit()
+        text = self.font.render(f"You lose. Score: {self.game_info.player_score}", False, (200, 0, 0))
+        self.screen.blit(text, (self.screen_width // 2 - text.get_bounding_rect().width // 2,
+                                self.screen_height // 2 - text.get_bounding_rect().height))
+        pygame.display.flip()
 
     def draw_score(self):
         score = self.game_info.player_score
