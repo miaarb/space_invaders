@@ -66,7 +66,8 @@ class GameInfo:
         self.update_shuttle_moving_flags()
         self.update_bullet_broken_flag()
         self.check_is_level_completed()
-        #     self.new_level()
+        self.check_is_player_alive()
+
 
     def move_all(self):
         # print("move_all")
@@ -123,6 +124,12 @@ class GameInfo:
             self.is_level_completed = True
         else:
             self.is_level_completed = False
+
+    def check_is_player_alive(self):
+        for enemy in self.enemies:
+            if enemy.is_alive and self.shuttle.is_intersected_with(enemy):
+                self.is_player_alive = False
+                self.is_active = False
 
     def update_shuttle_moving_flags(self):
         if self.shuttle.x <= 0:

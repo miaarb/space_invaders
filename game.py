@@ -33,7 +33,7 @@ class Game:
         self.enemy_image = pygame.image.load(r"images\cat_enemy.png")
         self.enemy_width = self.enemy_image.get_width()
         self.enemy_height = self.enemy_image.get_height()
-        self.enemy_velocity = 3
+        self.enemy_velocity = 10
 
         self.game_info = GameInfo(self.screen_width, self.screen_height,
                                   self.shuttle_width, self.shuttle_height, self.shuttle_velocity,
@@ -71,6 +71,7 @@ class Game:
                 self.level_completed()
             elif not self.game_info.is_player_alive:
                 self.show_player_died()
+            pygame.display.flip()
 
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -78,12 +79,12 @@ class Game:
         self.draw_bullets()
         self.draw_enemies()
         self.draw_score()
-        pygame.display.flip()
+        # pygame.display.flip()
 
     def level_completed(self):
         self.screen.blit(self.rjuman_image, (self.screen_width // 2 - self.rjuman_image.get_width() // 2,
-                                             self.screen_height // 2 - self.rjuman_image.get_height() // 2))
-        pygame.display.flip()
+                                             self.screen_height // 2 - self.rjuman_image.get_height()))
+        # pygame.display.flip()
         pygame.time.delay(1500)
         self.game_info.start_new_level()
 
@@ -91,7 +92,7 @@ class Game:
         text = self.font.render(f"You lose. Score: {self.game_info.player_score}", False, (200, 0, 0))
         self.screen.blit(text, (self.screen_width // 2 - text.get_bounding_rect().width // 2,
                                 self.screen_height // 2 - text.get_bounding_rect().height))
-        pygame.display.flip()
+        # pygame.display.flip()
 
     def draw_score(self):
         score = self.game_info.player_score
@@ -119,6 +120,8 @@ class Game:
                 self.screen.blit(self.enemy_image, (enemy.x, enemy.y))
 
     def process_game_keydown(self, key):
+        if not self.game_info.is_active:
+            return
         if key == pygame.K_LEFT:
             self.shuttle.is_moving_left = True
         if key == pygame.K_RIGHT:
