@@ -33,24 +33,25 @@ class Game:
         self.enemy_image = pygame.image.load(r"images\cat_enemy.png")
         self.enemy_width = self.enemy_image.get_width()
         self.enemy_height = self.enemy_image.get_height()
+        self.enemy_velocity = 5
 
         self.game_info = GameInfo(self.screen_width, self.screen_height,
                                   self.shuttle_width, self.shuttle_height, self.shuttle_velocity,
                                   self.bullet_width, self.bullet_height, self.bullet_velocity,
-                                  self.enemy_width, self.enemy_height)
+                                  self.enemy_width, self.enemy_height, self.enemy_velocity)
         self.shuttle = self.game_info.shuttle
 
-        self.smile_image = pygame.image.load(r"images\smile.png")
+        self.rjuman_image = pygame.image.load(r"images/rjuman.png")
 
         self.game_info.new_level()
         # self.enemy_matrix_width = 4
         # self.enemy_matrix_height = 3
         # self.game_info.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height)
 
-    @classmethod
-    def new_base_game(cls):
-        pass
-        # return cls()
+    # @classmethod
+    # def new_base_game(cls):
+    #     pass
+    #     # return cls()
 
     def game_loop(self):
         while True:
@@ -78,10 +79,10 @@ class Game:
         pygame.display.flip()
 
     def level_completed(self):
-        self.screen.blit(self.smile_image, (self.screen_width // 2 - self.smile_image.get_width() // 2,
-                                            self.screen_height // 2 - self.smile_image.get_height() // 2))
+        self.screen.blit(self.rjuman_image, (self.screen_width // 2 - self.rjuman_image.get_width() // 2,
+                                             self.screen_height // 2 - self.rjuman_image.get_height() // 2))
         pygame.display.flip()
-        pygame.time.delay(1000)
+        pygame.time.delay(1500)
         self.game_info.new_level()
 
     def draw_score(self):

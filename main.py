@@ -1,9 +1,9 @@
-import game_info
+from game import *
 
 
 def main():
-    new_game = game_info.GameInfo()
-    new_game.start()
+    game_instance = Game()
+    game_instance.game_loop()
 
 
 if __name__ == 'main':
