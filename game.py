@@ -33,7 +33,7 @@ class Game:
         self.enemy_image = pygame.image.load(r"images\cat_enemy.png")
         self.enemy_width = self.enemy_image.get_width()
         self.enemy_height = self.enemy_image.get_height()
-        self.enemy_velocity = 10
+        self.enemy_velocity = 3
 
         self.game_info = GameInfo(self.screen_width, self.screen_height,
                                   self.shuttle_width, self.shuttle_height, self.shuttle_velocity,
@@ -83,8 +83,8 @@ class Game:
 
     def level_completed(self):
         self.screen.blit(self.rjuman_image, (self.screen_width // 2 - self.rjuman_image.get_width() // 2,
-                                             self.screen_height // 2 - self.rjuman_image.get_height()))
-        # pygame.display.flip()
+                                             self.screen_height // 2 - self.rjuman_image.get_height() * 5//8))
+        pygame.display.flip()
         pygame.time.delay(1500)
         self.game_info.start_new_level()
 
@@ -141,5 +141,5 @@ class Game:
             self.shuttle.is_moving_right = False
 
 
-game = Game()
-game.game_loop()
+# game = Game()
+# game.game_loop()

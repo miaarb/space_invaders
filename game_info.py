@@ -29,7 +29,7 @@ class GameInfo:
         self.enemy_velocity = enemy_velocity
         self.enemy_distance = enemy_width // 4
         # self.enemies = [Enemy(200, 300, 0, self.enemy_width, self.enemy_height)]
-        self.enemy_matrix_width = 5
+        self.enemy_matrix_width = 10
         self.enemy_matrix_height = 2
         self.enemy_matrix = [[]]
         self.enemy_upper_bareer = self.margin
@@ -55,6 +55,7 @@ class GameInfo:
         return res
 
     def start_new_level(self):
+        self.enemy_upper_bareer = self.margin
         self.fill_enemy_matrix(self.enemy_matrix_width, self.enemy_matrix_height, self.enemy_distance)
         self.is_active = True
         self.is_player_alive = True
